@@ -1,0 +1,18 @@
+# Ryan X. Velez Negron y Axel Algarin Diaz
+# Proyecto_Internet_Of_Things_TankSense
+
+from gpiozero import DistanceSensor
+from time import sleep
+
+ALTURA_TANQUE_CM = 100  # aqui se ajusta la altura del tanque
+
+sensor = DistanceSensor(echo=24, trigger=23, max_distance=2)
+
+while True:
+    cm = sensor.distance * 100
+    nivel_cm = ALTURA_TANQUE_CM - cm
+    nivel_cm = max(0, min(ALTURA_TANQUE_CM, nivel_cm))  # lo limita entre 0 y la altura deseada
+    porcentaje = (nivel_cm / ALTURA_TANQUE_CM) * 100
+
+    print(f"Nivel del tanque: {porcentaje:.0f}% ({nivel_cm:.0f} cm)") # aqui entra para el usuario el porcentaje actual del tanque
+    sleep(1)
